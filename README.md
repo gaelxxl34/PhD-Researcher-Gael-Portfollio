@@ -1,61 +1,48 @@
-# Gael Ongoriko — Portfolio (Next.js)
+# Gael Ongoriko Portfolio
 
-Personal portfolio site for Gael Ongoriko, PhD Researcher at UT Dallas.
+Personal site for **Ongoriko Bindu Gael**, PhD Researcher in Multi-Agent Systems at UT Dallas.
 
-## Stack
-- **Next.js 15** (App Router)
-- **React 19**
-- **TypeScript**
-- Plain CSS (no framework — same design as the original HTML)
+Live: [gaelongoriko.com](https://gaelongoriko.com)
 
-## Local development
+## Tech
+
+- Next.js 15 (App Router)
+- React 19 + TypeScript
+- Plain CSS
+
+## Develop
 
 ```bash
 npm install
-npm run dev
+npm run dev          # http://localhost:3000
 ```
 
-Visit http://localhost:3000
-
-## Production build
+## Build
 
 ```bash
 npm run build
 npm start
 ```
 
-## Deploy to Vercel
+## Edit content
 
-1. Push this folder to a GitHub repo.
-2. Go to https://vercel.com/new and import the repo.
-3. Vercel auto-detects Next.js — just click **Deploy**.
-4. After deploy, update `SITE.url` in [lib/data.ts](lib/data.ts) with your real URL so social link previews work, then redeploy.
+All text content lives in [`lib/data.ts`](lib/data.ts): site info, experience, awards, skills, research cards. Update there and the site reflects the changes.
 
-## Project structure
+## Structure
 
 ```
 app/
-  layout.tsx       # Root layout, metadata (OG tags)
-  page.tsx         # Home page — composes all sections
-  globals.css      # All styles
-components/
-  Nav.tsx
-  Hero.tsx
-  About.tsx
-  Research.tsx
-  Experience.tsx
-  Awards.tsx
-  Skills.tsx
-  Contact.tsx
-  Footer.tsx
-lib/
-  data.ts          # All content (skills, experience, awards, etc.)
-public/
-  gael.jpg         # Profile photo (also used for social previews)
+  layout.tsx        SEO metadata + JSON-LD
+  page.tsx          Composes all sections
+  globals.css
+  robots.ts         /robots.txt
+  sitemap.ts        /sitemap.xml
+components/         One file per section
+lib/data.ts         All content
+public/gael.jpg     Profile photo
 ```
 
-## Adding a blog later
+## Deploy
 
-1. `npm install @next/mdx @mdx-js/loader @mdx-js/react`
-2. Create `app/blog/page.tsx` (index) and `app/blog/[slug]/page.tsx` (post).
-3. Drop `.mdx` files in `content/blog/` and read them with `fs` + `gray-matter`.
+Push to GitHub, import the repo on [vercel.com/new](https://vercel.com/new), click **Deploy**.
+
