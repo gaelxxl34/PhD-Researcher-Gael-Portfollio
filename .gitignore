@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.env*.local
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# Legacy / local-only assets (not part of the Next.js project)
+gael-portfolio.html
+/gael.jpg
