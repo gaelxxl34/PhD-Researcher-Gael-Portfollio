@@ -1,48 +1,30 @@
-# Gael Ongoriko Portfolio
+# Gael Ongoriko
 
-Personal site for **Ongoriko Bindu Gael**, PhD Researcher in Multi-Agent Systems at UT Dallas.
+Hi, I'm **Ongoriko Bindu Gael**, a PhD researcher in Computer Science at **The University of Texas at Dallas**, working in the **MAVS Lab** under Dr. Rym Zalila-Wenkstern.
 
-Live: [gaelongoriko.com](https://gaelongoriko.com)
+My research focuses on **large-scale multi-agent simulation, autonomous agents, and intelligent coordination** in complex environments, with applications in smart cities, transportation, education, and healthcare.
 
-## Tech
+This repository hosts my personal website: [gaelongoriko.com](https://gaelongoriko.com)
 
-- Next.js 15 (App Router)
-- React 19 + TypeScript
-- Plain CSS
+## About me
 
-## Develop
+- PhD Researcher, Multi-Agent Systems, UT Dallas (Spring 2026 to present)
+- Founder & CEO, **Nyota Innovations**, building AI and VR powered education platforms
+- **GAIME Startup Battlefield Winner 2025** ($75,000) for AI in education
+- First place, **Legal Technology Uganda** for the LegalFinder app
+- Built and deployed VR labs, AI tutors, and intelligent task management systems used by schools and institutions across East Africa
 
-```bash
-npm install
-npm run dev          # http://localhost:3000
-```
+## Research interests
 
-## Build
+- Multi-agent simulation and agent-based modeling
+- Autonomous decision making under uncertainty
+- Reinforcement learning and agent coordination
+- Smart cities and intelligent transportation systems
+- Interactive computing, AI in education, virtual reality
 
-```bash
-npm run build
-npm start
-```
+## Connect
 
-## Edit content
-
-All text content lives in [`lib/data.ts`](lib/data.ts): site info, experience, awards, skills, research cards. Update there and the site reflects the changes.
-
-## Structure
-
-```
-app/
-  layout.tsx        SEO metadata + JSON-LD
-  page.tsx          Composes all sections
-  globals.css
-  robots.ts         /robots.txt
-  sitemap.ts        /sitemap.xml
-components/         One file per section
-lib/data.ts         All content
-public/gael.jpg     Profile photo
-```
-
-## Deploy
-
-Push to GitHub, import the repo on [vercel.com/new](https://vercel.com/new), click **Deploy**.
-
+- Website: [gaelongoriko.com](https://gaelongoriko.com)
+- Email: [Ongoriko.Gael@UTDallas.edu](mailto:Ongoriko.Gael@UTDallas.edu)
+- LinkedIn: [gael-ongoriko](https://www.linkedin.com/in/gael-ongoriko-8a8846251/)
+- GitHub: [@gaelxxl34](https://github.com/gaelxxl34)
