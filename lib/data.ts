@@ -37,7 +37,7 @@ export const SITE = {
     'computer science researcher Texas',
   ],
   // Canonical production URL, used for OG/Twitter previews & sitemap
-  url: 'https://gaelongoriko.com',
+  url: 'https://www.gaelongoriko.com',
   email: 'Ongoriko.Gael@UTDallas.edu',
   phone: '+1 (940) 500-3523',
   phoneTel: '+19405003523',

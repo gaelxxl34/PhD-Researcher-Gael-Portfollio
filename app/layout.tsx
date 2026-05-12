@@ -32,16 +32,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'profile',
-    title: SITE.shortTitle,
-    description: SITE.description,
+    title: SITE.name,
+    description: SITE.shortDescription,
     url: SITE.url,
-    siteName: `${SITE.fullName}, Researcher & Innovator`,
+    siteName: SITE.name,
     locale: 'en_US',
     images: [
       {
-        url: SITE.ogImage,
-        width: 1200,
-        height: 630,
+        url: '/og-image.png',
+        width: 1080,
+        height: 1080,
         alt: `${SITE.fullName}, PhD Researcher at UT Dallas`,
       },
     ],
@@ -50,11 +50,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: SITE.shortTitle,
+    title: SITE.name,
     description: SITE.shortDescription,
     images: [
       {
-        url: SITE.ogImage,
+        url: '/og-image.png',
         alt: `${SITE.fullName}, PhD Researcher`,
       },
     ],
