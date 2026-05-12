@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.jpg',
         width: 1080,
         height: 1080,
         alt: `${SITE.fullName}, PhD Researcher at UT Dallas`,
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     description: SITE.shortDescription,
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.jpg',
         alt: `${SITE.fullName}, PhD Researcher`,
       },
     ],
