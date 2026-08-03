@@ -1,8 +1,26 @@
 import { AFFILIATIONS, RESEARCH_INTERESTS, SITE } from '@/lib/data';
 
+const ROLE_PILLARS = [
+  {
+    role: 'Researcher',
+    detail:
+      'Designing large-scale multi-agent simulation systems with rigorous, measurable outcomes.',
+  },
+  {
+    role: 'Builder',
+    detail:
+      'Shipping real products across education and AI, from virtual labs to autonomous planning tools.',
+  },
+  {
+    role: 'Innovator',
+    detail:
+      'Turning research into impact through startup execution, cross-disciplinary collaboration, and deployment.',
+  },
+];
+
 export default function About() {
   return (
-    <section className="about" id="about">
+    <section className="about" id="about" data-scene data-bg="#fdf1ea">
       <span className="section-tag">About</span>
       <div className="about-grid">
         <div className="about-text">
@@ -26,12 +44,21 @@ export default function About() {
           </p>
           <p>
             My work sits at the intersection of intelligent systems, interactive
-            computing, and real-world deployment, from traffic simulation to virtual
-            learning environments.
+            computing, and real-world deployment, from disaster-response
+            logistics to critical infrastructure coordination at scale.
           </p>
         </div>
 
         <div className="about-right">
+          <div className="about-pillars" aria-label="Core identity">
+            {ROLE_PILLARS.map((item, i) => (
+              <article className="pillar-card" key={item.role}>
+                <span className="pillar-index">0{i + 1}</span>
+                <h3 className="pillar-title">{item.role}</h3>
+                <p className="pillar-desc">{item.detail}</p>
+              </article>
+            ))}
+          </div>
           <div className="research-focus">
             <p className="focus-label">Research Interests</p>
             <div className="focus-tags">

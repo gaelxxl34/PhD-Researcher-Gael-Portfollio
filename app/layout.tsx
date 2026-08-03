@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { SITE } from '@/lib/data';
-import './globals.css';
+import './showcase.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -187,8 +187,12 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap"
           rel="stylesheet"
+        />
+        <script
+          type="module"
+          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
         />
         <script
           type="application/ld+json"

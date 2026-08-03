@@ -2,7 +2,7 @@ import { EXPERIENCE } from '@/lib/data';
 
 export default function Experience() {
   return (
-    <section className="experience" id="experience">
+    <section className="experience" id="experience" data-scene data-bg="#f5edfa">
       <span className="section-tag">Experience</span>
       <div className="divider divider-light" />
       <h2 className="section-title">

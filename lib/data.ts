@@ -68,7 +68,7 @@ export const RESEARCH_INTERESTS = [
   { label: 'Autonomous Systems', accent: true },
   { label: 'Reinforcement Learning' },
   { label: 'Agent-Based Modeling' },
-  { label: 'Smart Cities' },
+  { label: 'Critical Infrastructure AI' },
   { label: 'Interactive Computing' },
   { label: 'AI in Education' },
   { label: 'Virtual Reality' },
@@ -93,8 +93,8 @@ export const RESEARCH_CARDS = [
   },
   {
     num: '03',
-    title: 'Applications: Smart Cities & Intelligent Transportation',
-    desc: "Applying multi-agent simulation techniques to real-world urban systems, including traffic flow optimization, distributed resource allocation, and autonomous vehicle coordination. Building on Dr. Zalila-Wenkstern's DALI system which reduced traffic waiting times by 40% using distributed agent-based traffic lights.",
+    title: 'Applications: Emergency Response & Infrastructure Resilience',
+    desc: 'Applying multi-agent systems to high-impact, time-critical domains: emergency dispatch coordination, hospital intake balancing, outage recovery logistics, and distributed resource allocation under uncertainty. The same agentic coordination principles scale to transportation, but the broader goal is resilient, real-time decision support for complex systems.',
   },
 ];
 

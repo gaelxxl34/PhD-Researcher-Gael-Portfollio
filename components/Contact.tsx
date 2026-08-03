@@ -1,8 +1,12 @@
 import { SITE } from '@/lib/data';
+import AgentSimulation from '@/components/AgentSimulation';
 
 export default function Contact() {
   return (
-    <section className="contact" id="contact">
+    <section className="contact" id="contact" data-scene data-bg="#f2efff">
+      <div className="contact-sim" aria-hidden="true">
+        <AgentSimulation variant="light" />
+      </div>
       <span className="section-tag">Contact</span>
       <h2 className="contact-title">
         Let&apos;s Build

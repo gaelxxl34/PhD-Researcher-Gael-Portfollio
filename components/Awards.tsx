@@ -2,7 +2,7 @@ import { AWARDS } from '@/lib/data';
 
 export default function Awards() {
   return (
-    <section className="awards" id="awards">
+    <section className="awards" id="awards" data-scene data-bg="#fdf5e8">
       <span className="section-tag">Awards & Recognition</span>
       <div className="divider" />
       <h2 className="section-title">

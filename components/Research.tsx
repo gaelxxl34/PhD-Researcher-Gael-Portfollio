@@ -2,7 +2,7 @@ import { RESEARCH_CARDS } from '@/lib/data';
 
 export default function Research() {
   return (
-    <section className="research" id="research">
+    <section className="research" id="research" data-scene data-bg="#edf2fc">
       <span className="section-tag">Research</span>
       <div className="divider" />
       <h2 className="section-title">
