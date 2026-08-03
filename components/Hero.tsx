@@ -16,8 +16,8 @@ export default function Hero() {
           </h1>
           <p className="hero-sub">
             I build worlds where <em>thousands of AI agents</em> perceive, decide, and
-            cooperate — from emergency response orchestration to
-            mission-critical infrastructure recovery after outages.
+            cooperate — from adaptive smart-city mobility and traffic control to
+            power-grid resilience and autonomous logistics coordination.
           </p>
           <div className="hero-cta">
             <a href="#research" className="btn-primary">

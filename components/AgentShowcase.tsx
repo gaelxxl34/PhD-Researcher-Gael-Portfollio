@@ -5,13 +5,14 @@ import { createElement, useEffect, useState } from 'react';
 const SUPPORT_AGENT = {
   label: 'Support Agent',
   src: '/models/robot-expressive.glb',
-  animation: 'Running',
   orbit: '-12deg 78deg 124%',
   target: 'auto auto auto',
   exposure: '0.98',
   shadow: '0.6',
   scale: '0.88 0.88 0.88',
 } as const;
+
+const SUPPORT_ANIMATIONS = ['Idle', 'Walking', 'Running', 'Dance'] as const;
 
 const STAGE_SHOTS = [
   {
@@ -59,7 +60,7 @@ const CAPTIONS = [
         First, my agents <em>perceive</em>
       </>
     ),
-    desc: 'Every agent continuously senses constraints, peer intent, and live system state from the environment around it.',
+    desc: 'Every agent first reads the environment: constraints, hazards, and state transitions that shape what actions are possible.',
   },
   {
     title: (
@@ -101,11 +102,13 @@ export default function AgentShowcase() {
     if (!section) return;
 
     const model = section.querySelector<HTMLElement>('model-viewer.showcase-model');
-    if (!model) return;
+    const supportModel = section.querySelector<HTMLElement>('model-viewer.support-model');
+    if (!model || !supportModel) return;
 
     const applyStage = () => {
       const stage = parseInt(section.dataset.stage ?? '0', 10);
       const shot = STAGE_SHOTS[stage] ?? STAGE_SHOTS[0];
+      const supportAnim = SUPPORT_ANIMATIONS[stage] ?? SUPPORT_ANIMATIONS[0];
 
       model.setAttribute('animation-name', shot.animation);
       model.setAttribute('camera-orbit', shot.orbit);
@@ -113,6 +116,7 @@ export default function AgentShowcase() {
       model.setAttribute('field-of-view', shot.fov);
       model.setAttribute('exposure', shot.exposure);
       model.setAttribute('shadow-intensity', shot.shadow);
+      supportModel.setAttribute('animation-name', supportAnim);
 
       section.setAttribute('data-shot', shot.tone);
     };
@@ -146,6 +150,16 @@ export default function AgentShowcase() {
         </div>
 
         <div className="showcase-stage" aria-hidden="true">
+          <div className="env-skybox" />
+          <div className="env-terrain" />
+          <div className="env-zones">
+            <i className="env-zone z1" />
+            <i className="env-zone z2" />
+            <i className="env-zone z3" />
+          </div>
+          <div className="env-corridor" />
+          <div className="stage-orbit-lines" />
+          <div className="stage-scan-beam" />
           <div className="stage-light stage-light-warm" />
           <div className="stage-light stage-light-cool" />
           <div className="stage-grid" />
@@ -175,7 +189,7 @@ export default function AgentShowcase() {
                 'shadow-intensity': SUPPORT_AGENT.shadow,
                 'camera-target': SUPPORT_AGENT.target,
                 'camera-orbit': SUPPORT_AGENT.orbit,
-                'animation-name': SUPPORT_AGENT.animation,
+                'animation-name': SUPPORT_ANIMATIONS[0],
                 scale: SUPPORT_AGENT.scale,
                 exposure: SUPPORT_AGENT.exposure,
                 'environment-image': 'neutral',

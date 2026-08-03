@@ -1,0 +1,64 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DCE9F9"/>
+      <stop offset="58%" stop-color="#EAF2FD"/>
+      <stop offset="100%" stop-color="#F7F1E8"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1260 180) rotate(132) scale(480 240)">
+      <stop stop-color="#4D7DBA" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#4D7DBA" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(280 670) rotate(18) scale(540 260)">
+      <stop stop-color="#A8743A" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#A8743A" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" stroke="#2E4A6A" stroke-opacity="0.09"/>
+    </pattern>
+    <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#35516F" fill-opacity="0.11"/>
+    </pattern>
+    <linearGradient id="corridor" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4D7DBA" stop-opacity="0.08"/>
+      <stop offset="45%" stop-color="#F0B56A" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#4D7DBA" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" fill="url(#glowA)"/>
+  <rect width="1600" height="900" fill="url(#glowB)"/>
+
+  <g opacity="0.48">
+    <ellipse cx="320" cy="200" rx="180" ry="74" stroke="#36516F" stroke-opacity="0.22" stroke-dasharray="7 7"/>
+    <ellipse cx="320" cy="200" rx="250" ry="104" stroke="#36516F" stroke-opacity="0.16" stroke-dasharray="7 8"/>
+    <ellipse cx="320" cy="200" rx="328" ry="138" stroke="#36516F" stroke-opacity="0.10" stroke-dasharray="8 10"/>
+  </g>
+
+  <g opacity="0.42">
+    <ellipse cx="1180" cy="260" rx="170" ry="68" stroke="#36516F" stroke-opacity="0.18" stroke-dasharray="7 7"/>
+    <ellipse cx="1180" cy="260" rx="238" ry="96" stroke="#36516F" stroke-opacity="0.12" stroke-dasharray="7 8"/>
+  </g>
+
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <rect width="1600" height="900" fill="url(#dots)" opacity="0.45"/>
+
+  <g>
+    <ellipse cx="224" cy="630" rx="122" ry="64" fill="#436488" fill-opacity="0.16"/>
+    <ellipse cx="840" cy="566" rx="132" ry="72" fill="#35526F" fill-opacity="0.15"/>
+    <ellipse cx="1310" cy="632" rx="118" ry="60" fill="#A8743A" fill-opacity="0.14"/>
+  </g>
+
+  <g>
+    <rect x="74" y="654" width="1452" height="114" rx="57" fill="url(#corridor)"/>
+    <rect x="74" y="654" width="1452" height="114" rx="57" stroke="#3D5C7E" stroke-opacity="0.20"/>
+    <line x1="104" y1="711" x2="1494" y2="711" stroke="#375474" stroke-opacity="0.30" stroke-width="2"/>
+  </g>
+
+  <g opacity="0.5">
+    <path d="M480 654V768" stroke="#2F4B69" stroke-opacity="0.15" stroke-dasharray="4 10"/>
+    <path d="M790 654V768" stroke="#2F4B69" stroke-opacity="0.15" stroke-dasharray="4 10"/>
+    <path d="M1110 654V768" stroke="#2F4B69" stroke-opacity="0.15" stroke-dasharray="4 10"/>
+  </g>
+</svg>
