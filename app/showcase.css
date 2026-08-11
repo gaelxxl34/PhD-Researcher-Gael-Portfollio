@@ -728,6 +728,19 @@ nav.site-nav.is-scrolled {
   }
 }
 
+/* visually hidden but available to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---------- KEYBOARD FOCUS ---------- */
 
 a:focus-visible,
@@ -920,7 +933,7 @@ section[data-scene]:not(.hero):not(.showcase):not(.research) > * {
   pointer-events: none;
 }
 
-.cap h3 {
+.cap h2 {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(1.8rem, 4vw, 3.2rem);
@@ -929,7 +942,7 @@ section[data-scene]:not(.hero):not(.showcase):not(.research) > * {
   line-height: 1.1;
 }
 
-.cap h3 em {
+.cap h2 em {
   font-style: normal;
   color: var(--a1);
 }
@@ -1978,6 +1991,7 @@ section[data-scene]:not(.hero):not(.showcase):not(.research) > * {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   padding-bottom: 0.2rem;
+  color: #7d5527; /* darker bronze: small text needs 4.5:1 on the white card */
 }
 
 .award-name {

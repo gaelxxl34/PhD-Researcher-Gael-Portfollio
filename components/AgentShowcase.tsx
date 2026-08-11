@@ -145,41 +145,43 @@ export default function AgentShowcase() {
         <div className="showcase-captions">
           {CAPTIONS.map((cap, i) => (
             <div className={`cap cap-${i}`} key={i}>
-              <h3>{cap.title}</h3>
+              <h2>{cap.title}</h2>
               <p>{cap.desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="showcase-stage" aria-hidden="true">
-          <div className="env-skybox" />
-          <div className="env-terrain" />
-          <div className="env-zones">
+        {/* the stage itself stays in the tree (the 3D viewer is interactive and
+            labeled); only the purely decorative layers are aria-hidden */}
+        <div className="showcase-stage">
+          <div className="env-skybox" aria-hidden="true" />
+          <div className="env-terrain" aria-hidden="true" />
+          <div className="env-zones" aria-hidden="true">
             <i className="env-zone z1" />
             <i className="env-zone z2" />
             <i className="env-zone z3" />
           </div>
-          <div className="env-corridor" />
-          <div className="stage-orbit-lines" />
-          <div className="stage-scan-beam" />
-          <div className="stage-light stage-light-warm" />
-          <div className="stage-light stage-light-cool" />
-          <div className="stage-grid" />
-          <div className="stage-ground" />
+          <div className="env-corridor" aria-hidden="true" />
+          <div className="stage-orbit-lines" aria-hidden="true" />
+          <div className="stage-scan-beam" aria-hidden="true" />
+          <div className="stage-light stage-light-warm" aria-hidden="true" />
+          <div className="stage-light stage-light-cool" aria-hidden="true" />
+          <div className="stage-grid" aria-hidden="true" />
+          <div className="stage-ground" aria-hidden="true" />
 
-          <div className="radar r1" />
-          <div className="radar r2" />
-          <div className="radar r3" />
+          <div className="radar r1" aria-hidden="true" />
+          <div className="radar r2" aria-hidden="true" />
+          <div className="radar r3" aria-hidden="true" />
 
-          <div className="branch b1" />
-          <div className="branch b2" />
-          <div className="branch b3" />
+          <div className="branch b1" aria-hidden="true" />
+          <div className="branch b2" aria-hidden="true" />
+          <div className="branch b3" aria-hidden="true" />
 
-          <div className="speedline s1" />
-          <div className="speedline s2" />
-          <div className="speedline s3" />
+          <div className="speedline s1" aria-hidden="true" />
+          <div className="speedline s2" aria-hidden="true" />
+          <div className="speedline s3" aria-hidden="true" />
 
-          <div className="support-rig" aria-hidden="true">
+          <div className="support-rig">
             {mounted ? (
               createElement('model-viewer', {
                 className: 'support-model',
@@ -193,6 +195,7 @@ export default function AgentShowcase() {
                 'camera-target': SUPPORT_AGENT.target,
                 'camera-orbit': SUPPORT_AGENT.orbit,
                 'animation-name': SUPPORT_ANIMATIONS[0],
+                tabindex: '-1',
                 scale: SUPPORT_AGENT.scale,
                 exposure: SUPPORT_AGENT.exposure,
                 'environment-image': 'neutral',
@@ -202,7 +205,7 @@ export default function AgentShowcase() {
               <div className="support-model" aria-hidden="true" />
             )}
           </div>
-          <div className="sync-link" />
+          <div className="sync-link" aria-hidden="true" />
 
           <div className="robot-rig">
             {mounted ? (
@@ -219,6 +222,8 @@ export default function AgentShowcase() {
                 'animation-name': 'Idle',
                 'animation-crossfade-duration': '350',
                 'interpolation-decay': '160',
+                // the stage is aria-hidden, so keep the interactive viewer out of the tab order
+                tabindex: '-1',
               } as any)
             ) : (
               <div className="showcase-model" aria-hidden="true" />

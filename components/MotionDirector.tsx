@@ -15,8 +15,12 @@ export default function MotionDirector() {
       if (el.dataset.split) return;
       el.dataset.split = '1';
       const text = el.textContent ?? '';
-      el.setAttribute('aria-label', text);
       el.textContent = '';
+      // screen readers get the intact word; the per-letter spans are decoration
+      const srText = document.createElement('span');
+      srText.className = 'sr-only';
+      srText.textContent = text;
+      el.appendChild(srText);
       Array.from(text).forEach((ch, i) => {
         const span = document.createElement('span');
         span.className = 'letter';
