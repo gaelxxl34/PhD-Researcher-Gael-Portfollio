@@ -2005,6 +2005,19 @@ section[data-scene]:not(.hero):not(.showcase):not(.research) > * {
   transform: rotate(45deg);
 }
 
+.skills-grid-tiered {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 900px;
+}
+
+.skills-note {
+  margin-top: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+}
+
 /* ---------- CONTACT ---------- */
 
 .contact {

@@ -1,4 +1,4 @@
-import { SKILL_GROUPS } from '@/lib/data';
+import { SKILL_GROUPS, SKILLS_NOTE } from '@/lib/data';
 
 export default function Skills() {
   return (
@@ -9,7 +9,7 @@ export default function Skills() {
         Tools & <em>technologies</em>
       </h2>
 
-      <div className="skills-grid">
+      <div className="skills-grid skills-grid-tiered">
         {SKILL_GROUPS.map((group) => (
           <div className="skill-group" key={group.title}>
             <p className="skill-group-title">{group.title}</p>
@@ -21,6 +21,7 @@ export default function Skills() {
           </div>
         ))}
       </div>
+      <p className="skills-note">{SKILLS_NOTE}</p>
     </section>
   );
 }
