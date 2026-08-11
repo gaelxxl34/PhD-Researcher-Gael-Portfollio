@@ -1,6 +1,28 @@
 import type { Metadata, Viewport } from 'next';
+import { DM_Mono, Sora, Space_Grotesk } from 'next/font/google';
 import { SITE } from '@/lib/data';
 import './showcase.css';
+
+const sora = Sora({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const dmMono = DM_Mono({
+  subsets: ['latin'],
+  weight: ['300', '400'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -26,9 +48,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: SITE.ogImage,
-    shortcut: SITE.ogImage,
-    apple: SITE.ogImage,
+    icon: '/icon-64.png',
+    shortcut: '/icon-64.png',
+    apple: '/apple-icon.png',
   },
   openGraph: {
     type: 'profile',
@@ -187,22 +209,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" prefix="og: https://ogp.me/ns#">
+    <html
+      lang="en"
+      prefix="og: https://ogp.me/ns#"
+      className={`${sora.variable} ${spaceGrotesk.variable} ${dmMono.variable}`}
+    >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap"
-          rel="stylesheet"
-        />
-        <script
-          type="module"
-          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
-        />
+        {/* model-viewer (vendored v4.3.1) is injected on demand by AgentShowcase
+            when the showcase nears the viewport, so it never blocks the hero */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
