@@ -72,6 +72,15 @@ export default function Contact() {
           >
             GitHub
           </a>
+          {/* TODO: SITE.scholar is a placeholder URL — update lib/data.ts when the profile exists */}
+          <a
+            href={SITE.scholar}
+            className="contact-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Scholar
+          </a>
           <a
             href={`mailto:${SITE.email}?subject=CV%20Request`}
             className="contact-link"

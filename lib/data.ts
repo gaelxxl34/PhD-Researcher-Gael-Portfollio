@@ -43,6 +43,8 @@ export const SITE = {
   phoneTel: '+19405003523',
   linkedin: 'https://www.linkedin.com/in/gael-ongoriko-8a8846251/',
   github: 'https://github.com/gaelxxl34',
+  // TODO: replace with the real Google Scholar profile URL once the profile is live
+  scholar: 'https://scholar.google.com/citations?user=PLACEHOLDER',
   ogImage: '/gael.jpg',
   themeColor: '#1a3a2a',
 };
@@ -51,6 +53,7 @@ export const SITE = {
 export const NAV_LINKS = [
   { href: '#about', label: 'About' },
   { href: '#research', label: 'Research' },
+  { href: '#publications', label: 'Publications' },
   { href: '#experience', label: 'Experience' },
   { href: '#awards', label: 'Awards' },
   { href: '#contact', label: 'Contact' },
@@ -95,6 +98,23 @@ export const RESEARCH_CARDS = [
     num: '03',
     title: 'Applications: Emergency Response & Infrastructure Resilience',
     desc: 'Applying multi-agent systems to high-impact, time-critical domains: emergency dispatch coordination, hospital intake balancing, outage recovery logistics, and distributed resource allocation under uncertainty. The same agentic coordination principles scale to transportation, but the broader goal is resilient, real-time decision support for complex systems.',
+  },
+];
+
+export type Publication = {
+  status: string;
+  title: string;
+  venue: string;
+  desc: string;
+};
+
+export const PUBLICATIONS: Publication[] = [
+  // TODO: replace this placeholder with the real paper title, target venue, and summary
+  {
+    status: 'In preparation',
+    title: 'First paper on large-scale multi-agent simulation — title forthcoming',
+    venue: 'Target venue to be announced',
+    desc: 'The first publication from my PhD work at the MAVS Lab; details will appear here as the work matures.',
   },
 ];
 

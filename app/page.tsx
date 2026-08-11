@@ -2,6 +2,7 @@ import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Research from '@/components/Research';
+import Publications from '@/components/Publications';
 import Experience from '@/components/Experience';
 import Awards from '@/components/Awards';
 import Skills from '@/components/Skills';
@@ -26,6 +27,7 @@ export default function Home() {
       <AgentShowcase />
       <About />
       <Research />
+      <Publications />
       <Experience />
       <Awards />
       <Skills />
