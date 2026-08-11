@@ -83,21 +83,40 @@ export const AFFILIATIONS = [
   'Interactive Computing Track',
 ];
 
-export const RESEARCH_CARDS = [
+export type ResearchLink = {
+  label: 'Repo' | 'Demo' | 'Paper';
+  href: string;
+};
+
+export type ResearchCard = {
+  num: string;
+  title: string;
+  desc: string;
+  /** Public artifacts for this line of work; the link row is hidden when empty. */
+  links: ResearchLink[];
+};
+
+export const RESEARCH_CARDS: ResearchCard[] = [
   {
     num: '01',
     title: 'Large-Scale Multi-Agent Simulation Systems',
     desc: "Designing simulation architectures capable of running thousands of concurrent autonomous agents in real-time environments. Investigating coordination protocols, emergent behavior patterns, and scalable communication frameworks for virtual agent populations. Advised by Dr. Rym Zalila-Wenkstern at the MAVS Lab, UT Dallas.",
+    // TODO: add { label: 'Repo' | 'Demo' | 'Paper', href } entries when public artifacts ship
+    links: [],
   },
   {
     num: '02',
     title: 'Agent Decision-Making in Dynamic Environments',
     desc: 'Exploring how agents perceive, reason, and adapt in environments that change in real time. This research examines planning algorithms, reinforcement learning strategies, and knowledge representation frameworks that enable agents to make robust decisions under uncertainty.',
+    // TODO: add { label: 'Repo' | 'Demo' | 'Paper', href } entries when public artifacts ship
+    links: [],
   },
   {
     num: '03',
     title: 'Applications: Emergency Response & Infrastructure Resilience',
     desc: 'Applying multi-agent systems to high-impact, time-critical domains: emergency dispatch coordination, hospital intake balancing, outage recovery logistics, and distributed resource allocation under uncertainty. The same agentic coordination principles scale to transportation, but the broader goal is resilient, real-time decision support for complex systems.',
+    // TODO: add { label: 'Repo' | 'Demo' | 'Paper', href } entries when public artifacts ship
+    links: [],
   },
 ];
 
