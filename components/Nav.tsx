@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NAV_LINKS, SITE } from '@/lib/data';
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>('');
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -43,6 +45,47 @@ export default function Nav() {
     };
   }, [open]);
 
+  // While the mobile menu dialog is open: close on Escape, trap Tab focus
+  // inside the toggle button + menu links, and move focus into the menu.
+  useEffect(() => {
+    if (!open) return;
+    const menu = menuRef.current;
+    const toggle = toggleRef.current;
+    if (!menu || !toggle) return;
+
+    const firstLink = menu.querySelector<HTMLElement>('a');
+    firstLink?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        toggle.focus();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const focusables = [
+        toggle,
+        ...Array.from(menu.querySelectorAll<HTMLElement>('a')),
+      ];
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const current = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && current === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && current === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (current && !focusables.includes(current)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open]);
+
   const handleLinkClick = () => setOpen(false);
 
   return (
@@ -74,6 +117,7 @@ export default function Nav() {
 
       <button
         type="button"
+        ref={toggleRef}
         className={`nav-toggle${open ? ' is-open' : ''}${scrolled ? ' is-scrolled-pos' : ''}`}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
@@ -87,10 +131,12 @@ export default function Nav() {
 
       <div
         id="mobile-menu"
+        ref={menuRef}
         className={`mobile-menu${open ? ' is-open' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-hidden={!open}
+        aria-label="Site navigation"
       >
         <ul>
           {NAV_LINKS.map((l) => (

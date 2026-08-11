@@ -90,9 +90,11 @@ const CAPTIONS = [
 
 export default function AgentShowcase() {
   const [mounted, setMounted] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }, []);
 
   useEffect(() => {
@@ -183,7 +185,8 @@ export default function AgentShowcase() {
                 className: 'support-model',
                 src: SUPPORT_AGENT.src,
                 alt: `${SUPPORT_AGENT.label} robot`,
-                autoplay: true,
+                // reduced motion: show a static pose instead of looping animation
+                autoplay: reduceMotion ? undefined : true,
                 'camera-controls': false,
                 'interaction-prompt': 'none',
                 'shadow-intensity': SUPPORT_AGENT.shadow,
@@ -207,7 +210,7 @@ export default function AgentShowcase() {
                 className: 'showcase-model',
                 src: '/models/robot-expressive.glb',
                 alt: 'Animated 3D robot',
-                autoplay: true,
+                autoplay: reduceMotion ? undefined : true,
                 'camera-controls': true,
                 'interaction-prompt': 'none',
                 'shadow-intensity': '0.9',

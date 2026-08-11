@@ -45,7 +45,9 @@ export default function AgentSimulation({
     let raf = 0;
     let running = true;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // cap devicePixelRatio harder on small viewports to keep mobile fill-rate low
+    const smallViewport = window.innerWidth < 700;
+    const dpr = Math.min(window.devicePixelRatio || 1, smallViewport ? 1.5 : 2);
     const agents: Agent[] = [];
     const pulses: Pulse[] = [];
     const mouse = { x: -9999, y: -9999 };
@@ -225,11 +227,17 @@ export default function AgentSimulation({
       }
     };
 
+    // on small viewports simulate at ~30fps instead of display refresh rate
+    let skipFrame = false;
     const loop = () => {
       if (!running) return;
+      raf = window.requestAnimationFrame(loop);
+      if (smallViewport) {
+        skipFrame = !skipFrame;
+        if (skipFrame) return;
+      }
       step();
       draw();
-      raf = window.requestAnimationFrame(loop);
     };
 
     resize();
