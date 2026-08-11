@@ -31,14 +31,7 @@ export default function Hero() {
 
         <div className="hero-product">
           <div className="hero-photo-card">
-            <Image
-              src="/gael.jpg"
-              alt={SITE.name}
-              width={360}
-              height={443}
-              sizes="(max-width: 900px) 88vw, 360px"
-              priority
-            />
+            <Image src="/gael.jpg" alt={SITE.name} width={360} height={443} priority />
           </div>
           <span className="chip chip-1">
             <i /> GAIME winner · $75K

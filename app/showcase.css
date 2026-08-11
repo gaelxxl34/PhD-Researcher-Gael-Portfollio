@@ -22,9 +22,8 @@
   --scroll-progress: 0;
   --cursor-x: 50vw;
   --cursor-y: 50vh;
-  --font-display: 'Sora', sans-serif;
-  --font-body: 'Space Grotesk', sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  /* --font-display / --font-body / --font-mono are provided by next/font
+     variables on <html> (self-hosted, no render-blocking font CSS) */
 }
 
 *,
@@ -516,6 +515,9 @@ nav.site-nav.is-scrolled {
 
 .hero-photo-card {
   position: relative;
+  /* explicit width (img 360 + 2x10 padding): the card must never shrink-wrap
+     the image, or a delayed image size resolution collapses the hero (CLS) */
+  width: min(380px, 100%);
   border-radius: 24px;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
@@ -534,6 +536,9 @@ nav.site-nav.is-scrolled {
   width: 100%;
   max-width: 360px;
   height: auto;
+  /* explicit ratio so the box is reserved before the image response arrives */
+  aspect-ratio: 360 / 443;
+  object-fit: cover;
   border-radius: 16px;
 }
 
@@ -980,20 +985,27 @@ section[data-scene]:not(.hero):not(.showcase):not(.research) > * {
   will-change: transform;
 }
 
-/* the stage where the bot performs */
+/* the stage where the bot performs; the photo backdrop only loads when the
+   section approaches the viewport (.is-near, set by AgentShowcase) so it
+   never competes with above-the-fold bandwidth */
 .showcase-stage {
   position: relative;
   height: 300px;
-  background:
-    linear-gradient(150deg, rgba(241, 246, 252, 0.08), rgba(245, 248, 252, 0.06)),
-    url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2000&q=80');
+  background: linear-gradient(150deg, #dfe6f0, #eef1f7);
   background-size: cover;
   background-position: center 58%;
-  background-blend-mode: normal, normal;
   border: 1px solid var(--line);
   border-radius: 24px;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
+}
+
+.showcase.is-near .showcase-stage {
+  background:
+    linear-gradient(150deg, rgba(241, 246, 252, 0.08), rgba(245, 248, 252, 0.06)),
+    url('/images/city-street.jpg');
+  background-size: cover;
+  background-position: center 58%;
 }
 
 .showcase-stage::before {
@@ -2508,6 +2520,9 @@ footer {
   }
   .hero-product {
     order: -1;
+  }
+  .hero-photo-card {
+    width: min(300px, 100%);
   }
   .hero-photo-card img {
     max-width: 280px;

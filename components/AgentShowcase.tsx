@@ -97,6 +97,37 @@ export default function AgentShowcase() {
     setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }, []);
 
+  // Load the (heavy) model-viewer library and the stage backdrop only when the
+  // showcase approaches the viewport, so the hero never competes for bandwidth.
+  useEffect(() => {
+    if (!mounted) return;
+    const section = document.getElementById('showcase');
+    if (!section) return;
+
+    const load = () => {
+      section.classList.add('is-near');
+      if (!customElements.get('model-viewer') && !document.getElementById('mv-script')) {
+        const s = document.createElement('script');
+        s.id = 'mv-script';
+        s.type = 'module';
+        s.src = '/vendor/model-viewer.min.js';
+        document.head.appendChild(s);
+      }
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          load();
+          io.disconnect();
+        }
+      },
+      { rootMargin: '1200px 0px' }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, [mounted]);
+
   useEffect(() => {
     if (!mounted) return;
 
