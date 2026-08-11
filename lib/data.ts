@@ -125,7 +125,16 @@ export const EXPERIENCE = [
   },
 ];
 
-export const AWARDS = [
+export type Award = {
+  name: string;
+  desc: string;
+  /** Prize money, shown as the card's big number. */
+  amount?: string;
+  /** Short highlight for non-monetary awards; used when there is no amount. */
+  label?: string;
+};
+
+export const AWARDS: Award[] = [
   {
     amount: '$75,000',
     name: 'GAIME Startup Battlefield Winner 2025',
@@ -147,14 +156,14 @@ export const AWARDS = [
     desc: 'Won at Innovation Village, Kampala with the TasteTrail application.',
   },
   {
-    amount: '-',
+    label: 'Pioneer award',
     name: 'VR Technology Pioneer Award',
     desc: 'Won for pioneering VR applications in education and professional training.',
   },
   {
-    amount: '4.5',
-    name: 'Top of Class, BSc Computer Science',
-    desc: 'Graduated top of class with a 4.5/5 GPA from the International University of East Africa.',
+    label: 'Top of class · 4.5/5 GPA',
+    name: 'BSc Computer Science',
+    desc: 'Graduated top of class from the International University of East Africa.',
   },
 ];
 

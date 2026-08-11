@@ -1938,9 +1938,21 @@ section[data-scene]:not(.hero):not(.showcase):not(.research) > * {
   font-weight: 800;
   font-size: 1.9rem;
   color: var(--a3);
-  display: block;
+  display: flex;
+  align-items: flex-end;
+  min-height: 1.9rem;
   margin-bottom: 0.6rem;
   line-height: 1;
+}
+
+/* non-monetary awards: a small-caps highlight instead of a big number */
+.award-amount-label {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-bottom: 0.2rem;
 }
 
 .award-name {

@@ -12,7 +12,11 @@ export default function Awards() {
       <div className="awards-grid">
         {AWARDS.map((a) => (
           <div className="award-card" key={a.name}>
-            <span className="award-amount">{a.amount}</span>
+            {a.amount ? (
+              <span className="award-amount">{a.amount}</span>
+            ) : (
+              <span className="award-amount award-amount-label">{a.label}</span>
+            )}
             <p className="award-name">{a.name}</p>
             <p className="award-desc">{a.desc}</p>
           </div>
