@@ -39,6 +39,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
+        url: '/og-image-wide.jpg',
+        width: 1200,
+        height: 630,
+        alt: `${SITE.fullName}, PhD Researcher at UT Dallas`,
+      },
+      // square variant for platforms that prefer 1:1 (e.g. WhatsApp thumbnails)
+      {
         url: '/og-image.jpg',
         width: 1080,
         height: 1080,
@@ -54,7 +61,9 @@ export const metadata: Metadata = {
     description: SITE.shortDescription,
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/og-image-wide.jpg',
+        width: 1200,
+        height: 630,
         alt: `${SITE.fullName}, PhD Researcher`,
       },
     ],
