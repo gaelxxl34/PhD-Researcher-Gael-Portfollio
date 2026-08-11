@@ -57,10 +57,10 @@ export const NAV_LINKS = [
 ];
 
 export const HERO_STATS = [
-  { num: '$75K', label: 'Award won' },
+  { num: '1000s', label: 'Agents per simulation' },
   { num: '400+', label: 'Students mentored' },
   { num: '15+', label: 'Projects built' },
-  { num: '5', label: 'Awards' },
+  { num: '6', label: 'Awards & honors' },
 ];
 
 export const RESEARCH_INTERESTS = [

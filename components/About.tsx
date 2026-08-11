@@ -38,9 +38,9 @@ export default function About() {
           </p>
           <p>
             Before joining UTD, I founded Nyota Innovations, built AI-powered educational
-            platforms used across East Africa, and won first place at the GAIME Startup
-            Battlefield, a global AI competition. I bring an unusual combination of
-            research depth and real-world engineering experience.
+            platforms used across East Africa, and won first place in a global AI startup
+            competition. I bring an unusual combination of research depth and real-world
+            engineering experience.
           </p>
           <p>
             My work sits at the intersection of intelligent systems, interactive

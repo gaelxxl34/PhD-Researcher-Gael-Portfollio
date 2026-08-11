@@ -3,7 +3,7 @@ const ITEMS = [
   'Intelligent Simulation',
   'Smart Cities',
   'Autonomous Agents',
-  'GAIME Winner \u2014 $75K',
+  'Agent-Based Modeling',
   'VR Education',
   'Reinforcement Learning',
 ];

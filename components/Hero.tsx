@@ -34,7 +34,7 @@ export default function Hero() {
             <Image src="/gael.jpg" alt={SITE.name} width={360} height={443} priority />
           </div>
           <span className="chip chip-1">
-            <i /> GAIME Winner — $75K
+            <i /> GAIME winner · $75K
           </span>
           <span className="chip chip-2">
             <i /> PhD @ UT Dallas
