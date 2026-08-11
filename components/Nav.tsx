@@ -68,7 +68,7 @@ export default function Nav() {
         </ul>
 
         <a href="#contact" className="nav-cta" onClick={handleLinkClick}>
-          Get in Touch
+          Get in touch
         </a>
       </nav>
 
@@ -106,7 +106,7 @@ export default function Nav() {
           ))}
         </ul>
         <a href="#contact" className="mobile-menu-cta" onClick={handleLinkClick}>
-          Get in Touch
+          Get in touch
         </a>
       </div>
     </>

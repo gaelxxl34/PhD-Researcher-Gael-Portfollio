@@ -57,9 +57,9 @@ export const NAV_LINKS = [
 ];
 
 export const HERO_STATS = [
-  { num: '$75K', label: 'Award Won' },
-  { num: '400+', label: 'Mentored' },
-  { num: '15+', label: 'Projects Built' },
+  { num: '$75K', label: 'Award won' },
+  { num: '400+', label: 'Students mentored' },
+  { num: '15+', label: 'Projects built' },
   { num: '5', label: 'Awards' },
 ];
 
@@ -129,12 +129,12 @@ export const AWARDS = [
   {
     amount: '$75,000',
     name: 'GAIME Startup Battlefield Winner 2025',
-    desc: 'First place in a global AI startup competition. Recognized for innovation in AI-powered educational technology.',
+    desc: 'Won first place in a global AI startup competition for innovation in AI-powered educational technology.',
   },
   {
     amount: '$10,000',
     name: 'AI Innovation Award',
-    desc: 'Recognized for outstanding contributions to AI technology in education across East Africa.',
+    desc: 'Won for outstanding contributions to AI technology in education across East Africa.',
   },
   {
     amount: '$1,500',
@@ -149,7 +149,7 @@ export const AWARDS = [
   {
     amount: '-',
     name: 'VR Technology Pioneer Award',
-    desc: 'Awarded for innovative VR applications in education and professional training.',
+    desc: 'Won for pioneering VR applications in education and professional training.',
   },
   {
     amount: '4.5',

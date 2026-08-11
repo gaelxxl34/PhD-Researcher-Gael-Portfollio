@@ -3,10 +3,10 @@ import { AWARDS } from '@/lib/data';
 export default function Awards() {
   return (
     <section className="awards" id="awards" data-scene data-bg="#fdf5e8">
-      <span className="section-tag">Awards & Recognition</span>
+      <span className="section-tag">Awards & recognition</span>
       <div className="divider" />
       <h2 className="section-title">
-        Recognized <em>Excellence</em>
+        Recognized <em>excellence</em>
       </h2>
 
       <div className="awards-grid">

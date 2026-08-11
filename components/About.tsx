@@ -60,7 +60,7 @@ export default function About() {
             ))}
           </div>
           <div className="research-focus">
-            <p className="focus-label">Research Interests</p>
+            <p className="focus-label">Research interests</p>
             <div className="focus-tags">
               {RESEARCH_INTERESTS.map((t) => (
                 <span key={t.label} className={`tag${t.accent ? ' tag-accent' : ''}`}>

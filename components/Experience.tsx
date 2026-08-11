@@ -6,7 +6,7 @@ export default function Experience() {
       <span className="section-tag">Experience</span>
       <div className="divider divider-light" />
       <h2 className="section-title">
-        Professional <em>Journey</em>
+        Professional <em>journey</em>
       </h2>
 
       <div className="exp-timeline">

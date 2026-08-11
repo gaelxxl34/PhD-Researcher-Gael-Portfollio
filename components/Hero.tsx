@@ -9,7 +9,7 @@ export default function Hero() {
       <AgentSimulation variant="light" />
       <div className="hero-inner">
         <div className="hero-copy">
-          <p className="hero-tag">PhD Researcher · UT Dallas · Multi-Agent Systems</p>
+          <p className="hero-tag">PhD researcher · UT Dallas · Multi-agent systems</p>
           <h1 className="hero-name">
             <span className="line split-letters">Gael</span>
             <span className="line line-accent split-letters">Ongoriko</span>
@@ -21,10 +21,10 @@ export default function Hero() {
           </p>
           <div className="hero-cta">
             <a href="#research" className="btn-primary">
-              View Research
+              View research
             </a>
             <a href="#contact" className="btn-outline">
-              Get in Touch
+              Get in touch
             </a>
           </div>
         </div>
@@ -40,7 +40,7 @@ export default function Hero() {
             <i /> PhD @ UT Dallas
           </span>
           <span className="chip chip-3">
-            <i /> 400+ Students Mentored
+            <i /> 400+ students mentored
           </span>
         </div>
       </div>

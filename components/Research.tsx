@@ -6,7 +6,7 @@ export default function Research() {
       <span className="section-tag">Research</span>
       <div className="divider" />
       <h2 className="section-title">
-        Current <em>Work</em>
+        Current <em>work</em>
       </h2>
 
       {RESEARCH_CARDS.map((card) => (

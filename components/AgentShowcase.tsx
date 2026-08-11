@@ -84,7 +84,7 @@ const CAPTIONS = [
         And <em>cooperate</em> at scale
       </>
     ),
-    desc: 'Both agents synchronize intent, share local state, and coordinate actions in real time to improve reliability under pressure.',
+    desc: 'Thousands of agents synchronize intent, share local state, and coordinate in real time — reliability emerges from cooperation under pressure.',
   },
 ];
 

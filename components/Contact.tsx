@@ -11,9 +11,9 @@ export default function Contact() {
         <div className="contact-head">
           <span className="section-tag">Contact</span>
           <h2 className="contact-title">
-            Let&apos;s Design the
+            Let&apos;s design the
             <br />
-            <em>Next Intelligent System</em>
+            <em>next intelligent system</em>
           </h2>
           <p className="contact-sub">
             I collaborate on multi-agent simulation research, AI systems engineering,
@@ -26,7 +26,7 @@ export default function Contact() {
             href={`mailto:${SITE.email}?subject=Research%20Collaboration`}
             className="contact-primary"
           >
-            Start a Collaboration
+            Start a collaboration
           </a>
           <div className="contact-points" aria-label="Collaboration focus areas">
             <p>
@@ -42,15 +42,15 @@ export default function Contact() {
 
         <div className="contact-meta" aria-label="Contact metadata">
           <div className="meta-card">
-            <span className="meta-k">Primary Email</span>
+            <span className="meta-k">Primary email</span>
             <a href={`mailto:${SITE.email}?subject=Hello%20Gael`}>{SITE.email}</a>
           </div>
           <div className="meta-card">
-            <span className="meta-k">Direct Line</span>
+            <span className="meta-k">Direct line</span>
             <a href={`tel:${SITE.phoneTel}`}>{SITE.phone}</a>
           </div>
           <div className="meta-card">
-            <span className="meta-k">Based In</span>
+            <span className="meta-k">Based in</span>
             <p>Dallas, Texas · UTC-6 / UTC-5</p>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function Contact() {
             href={`mailto:${SITE.email}?subject=CV%20Request`}
             className="contact-link"
           >
-            Request CV
+            Request my CV
           </a>
         </div>
       </div>

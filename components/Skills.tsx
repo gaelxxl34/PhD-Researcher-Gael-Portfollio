@@ -3,10 +3,10 @@ import { SKILL_GROUPS } from '@/lib/data';
 export default function Skills() {
   return (
     <section className="skills" id="skills" data-scene data-bg="#eff2f7">
-      <span className="section-tag">Technical Skills</span>
+      <span className="section-tag">Technical skills</span>
       <div className="divider" />
       <h2 className="section-title">
-        Tools & <em>Technologies</em>
+        Tools & <em>technologies</em>
       </h2>
 
       <div className="skills-grid">
