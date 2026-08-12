@@ -157,9 +157,9 @@ const jsonLd = {
       award: [
         'GAIME Startup Battlefield Winner 2025, $75,000',
         'AI Innovation Award, $10,000',
-        'First Title in Legal Technology, Uganda',
+        'First in Legal Technology, Uganda',
         'VR Technology Pioneer Award',
-        'Google Developer Student Club Demo Days Winner',
+        'Google Solution Challenge Winner',
       ],
       knowsAbout: [
         'Multi-Agent Systems',

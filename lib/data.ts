@@ -1,14 +1,14 @@
 export const SITE = {
   name: 'Gael Ongoriko',
   fullName: 'Ongoriko Bindu Gael',
-  initials: 'GB',
+  initials: 'OBG',
   title:
     'Ongoriko Bindu Gael | PhD Researcher in Multi-Agent Systems & AI Simulation, UT Dallas',
   shortTitle: 'Ongoriko Bindu Gael, PhD Researcher in Multi-Agent Systems & AI',
   description:
-    'Ongoriko Bindu Gael is a PhD researcher in Computer Science at UT Dallas specializing in multi-agent simulation, autonomous systems, and intelligent agent coordination. GAIME AI Innovation Winner ($75K). Founder of Nyota Innovations.',
+    'Ongoriko Bindu Gael is a PhD researcher in Computer Science at UT Dallas specializing in multi-agent simulation, autonomous systems, and intelligent agent coordination. GAIME Startup Battlefield Winner 2025 ($75K). Founder of Nyota Innovations.',
   shortDescription:
-    'PhD researcher at UT Dallas. Multi-agent simulation, autonomous systems, and AI. GAIME AI Innovation Winner. Founder of Nyota Innovations.',
+    'PhD researcher at UT Dallas. Multi-agent simulation, autonomous systems, and AI. GAIME Startup Battlefield Winner 2025. Founder of Nyota Innovations.',
   keywords: [
     'Ongoriko Bindu Gael',
     'Gael Ongoriko',
@@ -188,8 +188,8 @@ export const AWARDS: Award[] = [
     desc: 'Won the first-ever legal technology award in Uganda for the LegalFinder app.',
   },
   {
-    amount: '$600',
-    name: 'Google Developer Student Club Demo Days',
+    amount: '$800',
+    name: 'Google Solution Challenge',
     desc: 'Won at Innovation Village, Kampala with the TasteTrail application.',
   },
   {
