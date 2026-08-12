@@ -223,6 +223,16 @@ export default function RootLayout({
             __html: `(function(){var n=function(){};['log','info','debug'].forEach(function(k){try{console[k]=n;}catch(e){}});})();`,
           }}
         />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="af627abc-c758-4921-90db-be2b27a1f152"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","y192lcd97a");`,
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>
