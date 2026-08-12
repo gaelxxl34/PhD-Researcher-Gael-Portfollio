@@ -120,7 +120,6 @@ const jsonLd = {
       url: SITE.url,
       image: `${SITE.url}${SITE.ogImage}`,
       email: SITE.email,
-      telephone: SITE.phoneTel,
       jobTitle: 'PhD Researcher in Computer Science',
       description:
         'PhD researcher at the University of Texas at Dallas specializing in multi-agent simulation, autonomous agent systems, and intelligent computing. Founder of Nyota Innovations and GAIME AI Innovation Award winner.',

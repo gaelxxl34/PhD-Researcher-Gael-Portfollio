@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 const REVEAL_SELECTOR =
-  '.section-tag, .divider, .section-title, .about-text p, .about-pillars, .pillar-card, .research-focus, .research-card, .pub-item, .exp-timeline, .exp-item, .award-card, .skill-group, .skills-note, .contact-title, .contact-sub, .contact-link, .footer-name, .footer-note, .hero-sub, .hero-cta, .hero-tag, .hero-product, .sim-caption, .hero-stats, .showcase-stage';
+  '.section-tag, .divider, .section-title, .about-text p, .about-pillars, .pillar-card, .research-focus, .research-card, .pub-item, .exp-timeline, .exp-item, .award-card, .skill-group, .skills-note, .contact-title, .contact-sub, .contact-email, .contact-where, .contact-link, .footer-name, .footer-note, .hero-sub, .hero-cta, .hero-tag, .hero-product, .sim-caption, .hero-stats, .showcase-stage';
 
 export default function MotionDirector() {
   useEffect(() => {

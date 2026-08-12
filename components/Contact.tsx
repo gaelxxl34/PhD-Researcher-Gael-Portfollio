@@ -7,53 +7,29 @@ export default function Contact() {
       <div className="contact-sim" aria-hidden="true">
         <AgentSimulation variant="light" />
       </div>
-      <div className="contact-shell">
-        <div className="contact-head">
-          <span className="section-tag">Contact</span>
-          <h2 className="contact-title">
-            Let&apos;s design the
-            <br />
-            <em>next intelligent system</em>
-          </h2>
-          <p className="contact-sub">
-            I collaborate on multi-agent simulation research, AI systems engineering,
-            and deployment-focused prototypes for high-impact environments.
-          </p>
-        </div>
+      <div className="contact-inner">
+        <span className="section-tag">Contact</span>
+        <div className="divider" />
+        <h2 className="contact-title">
+          Let&apos;s design the
+          <br />
+          <em>next intelligent system</em>
+        </h2>
+        <p className="contact-sub">
+          I collaborate on multi-agent simulation research, AI systems engineering,
+          and deployment-focused prototypes — open to research partnerships,
+          internships, and technical advising.
+        </p>
 
-        <div className="contact-main">
-          <a
-            href={`mailto:${SITE.email}?subject=Research%20Collaboration`}
-            className="contact-primary"
-          >
-            Start a collaboration
-          </a>
-          <div className="contact-points" aria-label="Collaboration focus areas">
-            <p>
-              <strong>Focus:</strong> Multi-agent systems, simulation design, robust
-              coordination
-            </p>
-            <p>
-              <strong>Best for:</strong> Research partnerships, internships, technical
-              advising
-            </p>
-          </div>
-        </div>
-
-        <div className="contact-meta" aria-label="Contact metadata">
-          <div className="meta-card">
-            <span className="meta-k">Primary email</span>
-            <a href={`mailto:${SITE.email}?subject=Hello%20Gael`}>{SITE.email}</a>
-          </div>
-          <div className="meta-card">
-            <span className="meta-k">Direct line</span>
-            <a href={`tel:${SITE.phoneTel}`}>{SITE.phone}</a>
-          </div>
-          <div className="meta-card">
-            <span className="meta-k">Based in</span>
-            <p>Dallas, Texas · UTC-6 / UTC-5</p>
-          </div>
-        </div>
+        <a
+          className="contact-email"
+          href={`mailto:${SITE.email}?subject=Research%20Collaboration`}
+        >
+          {/* break opportunity after the @ so narrow screens wrap cleanly */}
+          {SITE.email.split('@')[0]}@<wbr />
+          {SITE.email.split('@')[1]}
+        </a>
+        <p className="contact-where">Dallas, Texas · UTC−6 · MAVS Lab, UT Dallas</p>
 
         <div className="contact-links">
           <a
@@ -62,7 +38,7 @@ export default function Contact() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            LinkedIn
+            LinkedIn ↗
           </a>
           <a
             href={SITE.github}
@@ -70,7 +46,7 @@ export default function Contact() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            GitHub
+            GitHub ↗
           </a>
           {/* TODO: SITE.scholar is a placeholder URL — update lib/data.ts when the profile exists */}
           <a
@@ -79,12 +55,9 @@ export default function Contact() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Google Scholar
+            Google Scholar ↗
           </a>
-          <a
-            href={`mailto:${SITE.email}?subject=CV%20Request`}
-            className="contact-link"
-          >
+          <a href={`mailto:${SITE.email}?subject=CV%20Request`} className="contact-link">
             Request my CV
           </a>
         </div>

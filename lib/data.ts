@@ -39,8 +39,6 @@ export const SITE = {
   // Canonical production URL, used for OG/Twitter previews & sitemap
   url: 'https://www.gaelongoriko.com',
   email: 'Ongoriko.Gael@UTDallas.edu',
-  phone: '+1 (940) 500-3523',
-  phoneTel: '+19405003523',
   linkedin: 'https://www.linkedin.com/in/gael-ongoriko-8a8846251/',
   github: 'https://github.com/gaelxxl34',
   // TODO: replace with the real Google Scholar profile URL once the profile is live

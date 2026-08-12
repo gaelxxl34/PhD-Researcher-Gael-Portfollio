@@ -105,9 +105,6 @@ export default function About() {
                 {SITE.email}
               </a>
             </p>
-            <p className="contact-line">
-              <a href={`tel:${SITE.phoneTel}`}>{SITE.phone}</a>
-            </p>
           </div>
         </div>
       </div>
