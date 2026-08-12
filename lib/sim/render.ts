@@ -1,7 +1,7 @@
 import type { City } from './city';
 import { edgeMid } from './city';
 import type { Simulation, StateWeights } from './sim';
-import { TRAIL_N } from './sim';
+import { TICK_HZ, TRAIL_N } from './sim';
 
 /**
  * Canvas 2D renderer for the simulation. This is the only module that touches
@@ -25,7 +25,10 @@ export const SIM_COLORS = {
   sense: '134, 178, 152',
   agentGlow: '143, 160, 176',
   agentCore: '244, 242, 238',
-  informedGlow: '244, 242, 238',
+  // informed agents carry the incident's warm tint: the spreading amber is
+  // how you SEE the alert propagate through the population
+  informedGlow: '224, 164, 98',
+  informedCore: '255, 236, 210',
   hazard: '176, 127, 73',
   hazardBright: '224, 164, 98',
   candidate: '160, 175, 188',
@@ -335,14 +338,33 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
     if (labels.length) (view as ViewOpts & { _labels?: typeof labels })._labels = labels;
   }
 
-  // agents: glow pass then core pass, split by informed status
+  // agents: glow pass then core pass, bucketed by information recency.
+  // The amber tint tracks how recently a broadcast wavefront touched the
+  // agent (informedAt refreshes on every keep-alive pulse), so the alert
+  // reads as repeating waves sweeping outward — not a permanent recolor
+  // that stops meaning anything once everyone knows.
   const glowR = mobile ? 3.6 : 4.4;
   const coreR = 1.7;
-  for (let informedPass = 0; informedPass < 2; informedPass++) {
+  // must be well under the wave's ~3.2s traversal or the whole map reads
+  // "hot" at once and the traveling front disappears
+  const hotTicks = TICK_HZ * 1.2;
+  const bucketOf = (a: { informed: boolean; informedAt: number }): number =>
+    !a.informed ? 0 : sim.tickCount - a.informedAt < hotTicks ? 2 : 1;
+  const glowStyle = [
+    `rgba(${SIM_COLORS.agentGlow}, 0.22)`,
+    `rgba(${SIM_COLORS.informedGlow}, 0.14)`,
+    `rgba(${SIM_COLORS.informedGlow}, 0.45)`,
+  ];
+  const coreStyle = [
+    `rgba(${SIM_COLORS.agentCore}, 0.82)`,
+    `rgba(${SIM_COLORS.agentCore}, 0.9)`,
+    `rgba(${SIM_COLORS.informedCore}, 1)`,
+  ];
+  for (let bucket = 0; bucket < 3; bucket++) {
     ctx.beginPath();
     let any = false;
     for (const a of agents) {
-      if (!a.alive || (a.informed ? 1 : 0) !== informedPass) continue;
+      if (!a.alive || bucketOf(a) !== bucket) continue;
       const x = ax(a, alpha);
       const y = ay(a, alpha);
       ctx.moveTo(x + glowR, y);
@@ -350,16 +372,13 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
       any = true;
     }
     if (any) {
-      ctx.fillStyle =
-        informedPass === 1
-          ? `rgba(${SIM_COLORS.informedGlow}, 0.34)`
-          : `rgba(${SIM_COLORS.agentGlow}, 0.22)`;
+      ctx.fillStyle = glowStyle[bucket];
       ctx.fill();
     }
     ctx.beginPath();
     any = false;
     for (const a of agents) {
-      if (!a.alive || (a.informed ? 1 : 0) !== informedPass) continue;
+      if (!a.alive || bucketOf(a) !== bucket) continue;
       const x = ax(a, alpha);
       const y = ay(a, alpha);
       ctx.moveTo(x + coreR, y);
@@ -367,7 +386,7 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
       any = true;
     }
     if (any) {
-      ctx.fillStyle = `rgba(${SIM_COLORS.agentCore}, ${informedPass === 1 ? 1 : 0.82})`;
+      ctx.fillStyle = coreStyle[bucket];
       ctx.fill();
     }
   }
@@ -393,7 +412,9 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
     ctx.stroke();
   }
 
-  // the state-4 closure: unmistakably shut
+  // the state-4 incident: unmistakably an event, not a texture.
+  // Barrier + ticks say "closed"; repeating alert rings say "broadcasting
+  // from here"; the reroute flashes say "and they're going around it".
   if (sim.closure >= 0) {
     const e = city.edges[sim.closure];
     const na = city.nodes[e.a];
@@ -417,11 +438,43 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
       ctx.stroke();
     }
     const m = edgeMid(city, e);
-    ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.2 * pulse + 0.08})`;
-    ctx.lineWidth = px(1.2);
-    ctx.beginPath();
-    ctx.arc(m.x, m.y, e.len / 2 + 14 + pulse * 8, 0, Math.PI * 2);
-    ctx.stroke();
+    // radiating alert rings: three staggered wavefronts expanding from the
+    // scene, in sync with the gossip broadcast's visual language
+    const coopA = Math.min(1, wt.cooperate * 2);
+    for (let k = 0; k < 3; k++) {
+      const t = (time * 0.42 + k / 3) % 1;
+      const r = e.len / 2 + 6 + t * 96;
+      const fade = (1 - t) * (0.32 - 0.07 * k);
+      if (fade <= 0.01) continue;
+      ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${fade * coopA})`;
+      ctx.lineWidth = px(1.2);
+      ctx.beginPath();
+      ctx.arc(m.x, m.y, r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+
+  // closure-caused reroutes: flash the replacement route so the divert is
+  // visible, not just a counter in the HUD
+  if (sim.rerouteFlashes.length && wt.cooperate > 0.05) {
+    for (const rf of sim.rerouteFlashes) {
+      const fade = Math.sin(Math.min(1, rf.t / 1.5) * Math.PI);
+      if (fade < 0.03) continue;
+      ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.55 * fade * wt.cooperate})`;
+      ctx.lineWidth = px(1.6);
+      ctx.setLineDash([px(4), px(4)]);
+      ctx.beginPath();
+      const agent = agents[rf.agent];
+      const startAt = agent?.alive ? 0 : 1;
+      if (agent?.alive) ctx.moveTo(ax(agent, alpha), ay(agent, alpha));
+      else ctx.moveTo(city.nodes[rf.nodes[0]].x, city.nodes[rf.nodes[0]].y);
+      for (let ni = startAt; ni < rf.nodes.length; ni++) {
+        const n = city.nodes[rf.nodes[ni]];
+        ctx.lineTo(n.x, n.y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
   }
 
 
@@ -473,6 +526,51 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
       ctx.fillText(l.text, sx, sy);
     }
     delete (view as ViewOpts & { _labels?: unknown })._labels;
+  }
+
+  // incident marker + label (screen space): the scene must announce itself —
+  // a viewer should know a road is closed without reading the section copy
+  if (sim.closure >= 0 && wt.cooperate > 0.08) {
+    const e = city.edges[sim.closure];
+    const m = edgeMid(city, e);
+    const sx = (m.x - cam.cx) * cam.scale + w / 2;
+    const sy = (m.y - cam.cy) * cam.scale + h / 2;
+    const a = Math.min(1, (wt.cooperate - 0.08) * 2.4);
+    const pulse = 0.5 + 0.5 * Math.sin(sim.time * 3.4);
+
+    // warning triangle, floated just above the barrier
+    const ty = sy - 24;
+    const s = 9;
+    ctx.beginPath();
+    ctx.moveTo(sx, ty - s);
+    ctx.lineTo(sx + s * 0.92, ty + s * 0.7);
+    ctx.lineTo(sx - s * 0.92, ty + s * 0.7);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(${SIM_COLORS.hazardBright}, ${(0.85 + 0.15 * pulse) * a})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(8, 18, 9, ${0.85 * a})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = `rgba(8, 18, 9, ${0.95 * a})`;
+    ctx.font = 'bold 9px "DM Mono", ui-monospace, monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('!', sx, ty + 1.5);
+
+    // label chip under the barrier
+    const text = mobile ? 'ROAD CLOSED' : 'INCIDENT — ROAD CLOSED';
+    ctx.font = '10px "DM Mono", ui-monospace, monospace';
+    const tw = ctx.measureText(text).width + 12;
+    const ly = sy + 26;
+    if (ly < h - 10 && sx - tw / 2 > 4 && sx + tw / 2 < w - 4) {
+      ctx.fillStyle = `rgba(8, 18, 9, ${0.78 * a})`;
+      ctx.fillRect(sx - tw / 2, ly - 8, tw, 16);
+      ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.5 * a})`;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(sx - tw / 2, ly - 8, tw, 16);
+      ctx.fillStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.95 * a})`;
+      ctx.fillText(text, sx, ly + 0.5);
+    }
   }
 
   return cam;

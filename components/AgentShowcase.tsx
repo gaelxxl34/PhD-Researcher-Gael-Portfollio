@@ -35,7 +35,7 @@ const CAPTIONS = [
         And <em>cooperate</em> at scale
       </>
     ),
-    desc: 'Thousands of agents synchronize intent, share local state, and coordinate in real time — reliability emerges from cooperation under pressure.',
+    desc: 'An incident closes the busiest avenue. The alert spreads agent to agent from the scene — and informed agents reroute before they ever reach the barrier. No central controller.',
   },
 ];
 

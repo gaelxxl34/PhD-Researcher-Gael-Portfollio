@@ -88,6 +88,16 @@ export interface Transmission {
   t: number;
 }
 
+/** A closure-caused reroute, kept briefly so the renderer can flash the new
+ *  route — the visible "going around it" beat of the cooperate state. */
+export interface RerouteFlash {
+  agent: number;
+  /** first few node ids of the replacement route */
+  nodes: number[];
+  /** seconds since the reroute */
+  t: number;
+}
+
 export interface Metrics {
   agents: number;
   avgSpeedMs: number;
@@ -108,6 +118,7 @@ export class Simulation {
   readonly agents: Agent[] = [];
   readonly decisions: Decision[] = [];
   readonly transmissions: Transmission[] = [];
+  readonly rerouteFlashes: RerouteFlash[] = [];
   readonly hash: SpatialHash;
 
   weights: StateWeights = { perceive: 1, decide: 0, act: 0, cooperate: 0 };
@@ -353,6 +364,11 @@ export class Simulation {
       tr.t += dt * 1.7;
       if (tr.t >= 1) this.transmissions.splice(i, 1);
     }
+    for (let i = this.rerouteFlashes.length - 1; i >= 0; i--) {
+      const rf = this.rerouteFlashes[i];
+      rf.t += dt;
+      if (rf.t >= 1.5) this.rerouteFlashes.splice(i, 1);
+    }
 
     // -- congestion trend sampling ----------------------------------------
     if (this.time - this.lastCongSample > 0.5) {
@@ -545,6 +561,15 @@ export class Simulation {
     if (!silent) this.reroutes++;
   }
 
+  /** Record a closure-caused reroute so the renderer can flash the new route.
+   *  Capped so the cooperate state stays readable, not stroboscopic. */
+  private flashReroute(a: Agent): void {
+    if (this.rerouteFlashes.length >= 4) return;
+    const nodes = a.path.slice(a.pathI, a.pathI + 5);
+    if (nodes.length < 2) return;
+    this.rerouteFlashes.push({ agent: a.id, nodes, t: 0 });
+  }
+
   private pointerCost() {
     return this.pointer.active
       ? { x: this.pointer.x, y: this.pointer.y, r: POINTER_R * 1.35, k: 240 }
@@ -603,6 +628,7 @@ export class Simulation {
         a.senseFlash = 1;
         if (this.pathUsesEdge(a, this.closure)) {
           this.repath(a);
+          this.flashReroute(a);
         }
       }
     }
@@ -636,6 +662,7 @@ export class Simulation {
     if (this.closure >= 0) this.city.edges[this.closure].closed = false;
     this.closure = -1;
     this.transmissions.length = 0;
+    this.rerouteFlashes.length = 0;
     this.pulseSeq = 0;
     this.lastPulse = 0;
     for (const a of this.agents) {
@@ -665,7 +692,10 @@ export class Simulation {
           if (!a.informed) {
             a.informed = true;
             a.knowsClosure = true;
-            if (this.pathUsesEdge(a, this.closure)) this.repath(a);
+            if (this.pathUsesEdge(a, this.closure)) {
+              this.repath(a);
+              this.flashReroute(a);
+            }
           }
         }
       }
@@ -691,7 +721,10 @@ export class Simulation {
         if (!b.informed) {
           b.informed = true;
           b.knowsClosure = true;
-          if (this.pathUsesEdge(b, this.closure)) this.repath(b);
+          if (this.pathUsesEdge(b, this.closure)) {
+            this.repath(b);
+            this.flashReroute(b);
+          }
         }
       });
     }

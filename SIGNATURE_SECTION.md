@@ -52,13 +52,19 @@ while population, speed, camera, and layer emphasis interpolate continuously.
    trails lengthen, and streets whose *measured* car-following density crosses
    thresholds glow warm. HUD shows agents / mean speed / ticks per second /
    congestion index — all live.
-4. **Cooperate** — the busiest central avenue segment closes (bright dashed
-   bronze barrier). Agents within communication range of the incident start a
-   gossip broadcast: hop-by-hop relays drawn as thin links with packet dots,
-   expanding as a visible information wave (it re-broadcasts every ~4.5 s so
-   the behavior stays observable). **Informed agents reroute before ever
-   reaching the barrier; uninformed agents react only on direct perception.**
-   The HUD flips to `reroutes N · congestion ↓ falling`.
+4. **Cooperate** — the busiest central avenue segment closes and the scene
+   announces itself: a pulsing warning marker with an `INCIDENT — ROAD CLOSED`
+   chip (`ROAD CLOSED` on mobile) sits on the barrier, and staggered alert
+   rings radiate from it. Agents within communication range start a gossip
+   broadcast: hop-by-hop relays drawn as thin links with packet dots. The
+   amber agent tint tracks *recency of information* (hot window ~1.2 s, well
+   under the wave's ~3.2 s traversal), so each ~4.5 s re-broadcast reads as a
+   wavefront sweeping outward — informed-but-calm agents fade back to a faint
+   warm memory instead of permanently recoloring the map. Closure-caused
+   reroutes flash their replacement route for ~1.5 s (capped at 4 concurrent),
+   so the divert is visible, not just a counter. **Informed agents reroute
+   before ever reaching the barrier; uninformed agents react only on direct
+   perception.** The HUD flips to `reroutes N · congestion ↓ falling`.
 
 **Interaction** — the cursor (or a tap) is a disturbance in the world: agents
 inside its radius slow, drift to the far lane, and notice it; route costs near
