@@ -62,6 +62,8 @@ export interface Agent {
   knowsClosure: boolean;
   informed: boolean;
   informedAt: number;
+  /** id of the last broadcast wave this agent relayed */
+  pulseSeq: number;
   nextRepath: number;
   inDecision: boolean;
   trail: Float32Array;
@@ -132,6 +134,8 @@ export class Simulation {
   private lastCongSample = 0;
   private decisionCooldown = 0;
   private avgSpeed = 0;
+  private pulseSeq = 0;
+  private lastPulse = 0;
 
   constructor(opts?: { seed?: number; maxAgents?: number }) {
     const seed = opts?.seed ?? 20260811;
@@ -239,10 +243,11 @@ export class Simulation {
       this.edgeDir[eid][0].sort((i, j) => this.agents[i].s - this.agents[j].s);
       this.edgeDir[eid][1].sort((i, j) => this.agents[i].s - this.agents[j].s);
     }
-    // congestion EMA on every live edge (decays back to 0 when empty)
+    // congestion EMA on every live edge (decays back to 0 when empty).
+    // density 1.0 ≈ an agent every 7 units over the edge — visibly queued.
     for (const e of city.edges) {
       if (e.a < 0) continue;
-      const density = e.occupancy / Math.max(1, e.len / 14);
+      const density = (e.occupancy * 7) / Math.max(7, e.len);
       e.congestion += (density - e.congestion) * 0.06;
     }
 
@@ -323,8 +328,8 @@ export class Simulation {
       }
       this.place(a);
 
-      // trail: record every second tick
-      if ((this.tickCount + a.id) % 2 === 0) {
+      // trail: record every third tick (~0.6 s of motion history)
+      if ((this.tickCount + a.id) % 3 === 0) {
         a.trailHead = (a.trailHead + 1) % TRAIL_N;
         a.trail[a.trailHead * 2] = a.x;
         a.trail[a.trailHead * 2 + 1] = a.y;
@@ -447,6 +452,7 @@ export class Simulation {
     a.knowsClosure = false;
     a.informed = false;
     a.informedAt = 0;
+    a.pulseSeq = 0;
     a.inDecision = false;
     a.nextRepath = this.tickCount + 90 + int(this.rng, 120);
     a.trailLen = 0;
@@ -622,50 +628,71 @@ export class Simulation {
     this.closure = best.id;
     this.closureAt = this.tickCount;
     this.reroutes = 0;
-    const m = edgeMid(city, best);
-    // seed the information wave: agents that can see the incident
-    for (const a of this.agents) {
-      if (!a.alive) continue;
-      if (Math.hypot(a.x - m.x, a.y - m.y) < COMM_R * 1.15) {
-        a.informed = true;
-        a.knowsClosure = true;
-        a.informedAt = this.tickCount;
-        if (this.pathUsesEdge(a, this.closure)) this.repath(a);
-      }
-    }
+    // stepCommWave seeds the first broadcast pulse from the incident
+    this.pulseSeq = 0;
   }
 
   private clearClosure(): void {
     if (this.closure >= 0) this.city.edges[this.closure].closed = false;
     this.closure = -1;
     this.transmissions.length = 0;
+    this.pulseSeq = 0;
+    this.lastPulse = 0;
     for (const a of this.agents) {
       a.informed = false;
       a.knowsClosure = false;
+      a.pulseSeq = 0;
     }
   }
 
   private stepCommWave(): void {
-    // recently-informed agents propagate to uninformed neighbors — a visible
-    // wavefront rather than a permanent broadcast
+    // Gossip broadcast: a wavefront expands hop-by-hop from the incident.
+    // The first wave is what informs agents (they reroute on receipt); after
+    // that the closure re-broadcasts every ~6.5 s — a keep-alive gossip pulse
+    // that relays over the same local links, so the "information wave" stays
+    // observable for as long as the disruption lasts.
+    const city = this.city;
+    if (this.tickCount - this.lastPulse > TICK_HZ * 6.5 || this.pulseSeq === 0) {
+      this.pulseSeq++;
+      this.lastPulse = this.tickCount;
+      const e = city.edges[this.closure];
+      const m = edgeMid(city, e);
+      for (const a of this.agents) {
+        if (!a.alive) continue;
+        if (Math.hypot(a.x - m.x, a.y - m.y) < COMM_R * 1.15) {
+          a.pulseSeq = this.pulseSeq;
+          a.informedAt = this.tickCount;
+          if (!a.informed) {
+            a.informed = true;
+            a.knowsClosure = true;
+            if (this.pathUsesEdge(a, this.closure)) this.repath(a);
+          }
+        }
+      }
+    }
+
     const waveTicks = TICK_HZ * 3.2;
+    const cap = 150;
     for (const a of this.agents) {
-      if (!a.alive || !a.informed) continue;
+      if (!a.alive || a.pulseSeq !== this.pulseSeq) continue;
       if (this.tickCount - a.informedAt > waveTicks) continue;
       this.hash.query(a.x, a.y, COMM_R, (id) => {
         if (id === a.id) return;
         const b = this.agents[id];
-        if (!b.alive || b.informed) return;
+        if (!b.alive || b.pulseSeq === this.pulseSeq) return;
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         if (dx * dx + dy * dy > COMM_R * COMM_R) return;
         // stochastic relay spreads the wave over ~2s instead of one tick
         if (this.rng() > 0.3) return;
-        b.informed = true;
-        b.knowsClosure = true;
+        b.pulseSeq = this.pulseSeq;
         b.informedAt = this.tickCount;
-        if (this.transmissions.length < 150) this.transmissions.push({ from: a.id, to: b.id, t: 0 });
-        if (this.pathUsesEdge(b, this.closure)) this.repath(b);
+        if (this.transmissions.length < cap) this.transmissions.push({ from: a.id, to: b.id, t: 0 });
+        if (!b.informed) {
+          b.informed = true;
+          b.knowsClosure = true;
+          if (this.pathUsesEdge(b, this.closure)) this.repath(b);
+        }
       });
     }
   }
@@ -753,6 +780,7 @@ function newAgent(id: number): Agent {
     knowsClosure: false,
     informed: false,
     informedAt: 0,
+    pulseSeq: 0,
     nextRepath: 0,
     inDecision: false,
     trail: new Float32Array(TRAIL_N * 2),

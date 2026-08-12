@@ -222,9 +222,23 @@ export function buildCity(seed = 20260811): City {
   let bestScore = -Infinity;
   for (const n of nodes) {
     if (n.edges.length < 3) continue;
+    // the decide-state camera zooms here — keep it away from empty plazas
+    let nearPlaza = false;
+    for (const pz of plazas) {
+      if (
+        n.x > pz.x - 90 &&
+        n.x < pz.x + pz.w + 90 &&
+        n.y > pz.y - 90 &&
+        n.y < pz.y + pz.h + 90
+      ) {
+        nearPlaza = true;
+        break;
+      }
+    }
+    if (nearPlaza) continue;
     const d = Math.hypot(n.x - hx, n.y - hy);
     const score = n.edges.length * 40 - d;
-    if (d > 40 && d < 260 && score > bestScore) {
+    if (d > 40 && d < 300 && score > bestScore) {
       bestScore = score;
       focusNode = n.id;
     }

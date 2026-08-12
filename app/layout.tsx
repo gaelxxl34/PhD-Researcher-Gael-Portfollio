@@ -215,8 +215,6 @@ export default function RootLayout({
       className={`${sora.variable} ${spaceGrotesk.variable} ${dmMono.variable}`}
     >
       <head>
-        {/* model-viewer (vendored v4.3.1) is injected on demand by AgentShowcase
-            when the showcase nears the viewport, so it never blocks the hero */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
