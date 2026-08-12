@@ -14,9 +14,11 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "playwright": "^1.62.1",
     "typescript": "^5"
   }
 }
