@@ -1017,6 +1017,9 @@ section[data-scene]:not(.hero):not(.showcase):not(.research) > * {
   padding: 0.38rem 0.7rem;
   pointer-events: none;
   white-space: nowrap;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sim-hud:empty {

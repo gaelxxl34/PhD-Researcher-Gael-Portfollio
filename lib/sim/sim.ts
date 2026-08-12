@@ -350,7 +350,7 @@ export class Simulation {
     if (this.closure >= 0 && w.cooperate > 0.2) this.stepCommWave();
     for (let i = this.transmissions.length - 1; i >= 0; i--) {
       const tr = this.transmissions[i];
-      tr.t += dt * 2.6;
+      tr.t += dt * 1.7;
       if (tr.t >= 1) this.transmissions.splice(i, 1);
     }
 
@@ -652,7 +652,7 @@ export class Simulation {
     // that relays over the same local links, so the "information wave" stays
     // observable for as long as the disruption lasts.
     const city = this.city;
-    if (this.tickCount - this.lastPulse > TICK_HZ * 6.5 || this.pulseSeq === 0) {
+    if (this.tickCount - this.lastPulse > TICK_HZ * 4.5 || this.pulseSeq === 0) {
       this.pulseSeq++;
       this.lastPulse = this.tickCount;
       const e = city.edges[this.closure];

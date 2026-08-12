@@ -120,9 +120,11 @@ export default function AgentCity() {
       parts.push(`${m.ticksPerSec} ticks/s`);
       if (sim.closure >= 0) {
         parts.push(`reroutes ${m.reroutes}`);
-        parts.push(
-          `congestion ${m.congestionTrend === 'falling' ? '↓' : m.congestionTrend === 'rising' ? '↑' : '·'}${compact ? '' : ` ${m.congestionTrend}`}`
-        );
+        if (!compact) {
+          const arrow =
+            m.congestionTrend === 'falling' ? '↓ ' : m.congestionTrend === 'rising' ? '↑ ' : '';
+          parts.push(`congestion ${arrow}${m.congestionTrend}`);
+        }
       } else if (wt.act > 0.4 && !compact) {
         parts.push(`congestion ${Math.min(100, Math.round(m.congestion * 100))}%`);
       }

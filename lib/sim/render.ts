@@ -54,10 +54,21 @@ export function computeCamera(sim: Simulation, w: number, h: number): Camera {
   const city = sim.city;
   const cover = Math.max(w / city.width, h / city.height);
   const zoomW = sim.weights.decide;
-  const scale = cover * (1 + 0.62 * zoomW);
+  // cooperate: drift gently toward the disruption so the closure stays legible
+  const coopW = sim.closure >= 0 ? sim.weights.cooperate : 0;
+  const scale = cover * (1 + 0.62 * zoomW + 0.16 * coopW);
   const focus = city.nodes[city.focusNode];
-  let cx = city.width / 2 + (focus.x - city.width / 2) * zoomW;
-  let cy = city.height / 2 + (focus.y - city.height / 2) * zoomW;
+  let tx = city.width / 2 + (focus.x - city.width / 2) * zoomW;
+  let ty = city.height / 2 + (focus.y - city.height / 2) * zoomW;
+  if (coopW > 0) {
+    const ce = city.edges[sim.closure];
+    const mx = (city.nodes[ce.a].x + city.nodes[ce.b].x) / 2;
+    const my = (city.nodes[ce.a].y + city.nodes[ce.b].y) / 2;
+    tx += (mx - tx) * 0.55 * coopW;
+    ty += (my - ty) * 0.55 * coopW;
+  }
+  let cx = tx;
+  let cy = ty;
   const halfW = w / (2 * scale);
   const halfH = h / (2 * scale);
   cx = Math.min(city.width - halfW, Math.max(halfW, cx));
@@ -128,7 +139,7 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
   ctx.stroke(paths.major);
 
   // congestion heat: only genuinely queued streets glow warm (act + cooperate)
-  const heatW = wt.act + wt.cooperate * 0.9;
+  const heatW = wt.act + wt.cooperate * 0.35;
   if (heatW > 0.04) {
     for (let bucket = 0; bucket < 3; bucket++) {
       const lo = 0.55 + bucket * 0.35;
@@ -169,37 +180,6 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
       ctx.arc(m.x, m.y, r, 0, Math.PI * 2);
       ctx.stroke();
     }
-  }
-
-  // the state-4 closure: unmistakably shut
-  if (sim.closure >= 0) {
-    const e = city.edges[sim.closure];
-    const na = city.nodes[e.a];
-    const nb = city.nodes[e.b];
-    const pulse = 0.5 + 0.5 * Math.sin(time * 3.4);
-    ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.5 + 0.3 * pulse})`;
-    ctx.lineWidth = px(3);
-    ctx.setLineDash([px(7), px(6)]);
-    ctx.beginPath();
-    ctx.moveTo(na.x, na.y);
-    ctx.lineTo(nb.x, nb.y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    // barrier ticks across each end
-    for (const n of [na, nb]) {
-      ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, 0.9)`;
-      ctx.lineWidth = px(2.5);
-      ctx.beginPath();
-      ctx.moveTo(n.x - e.uy * 8, n.y + e.ux * 8);
-      ctx.lineTo(n.x + e.uy * 8, n.y - e.ux * 8);
-      ctx.stroke();
-    }
-    const m = edgeMid(city, e);
-    ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.2 * pulse + 0.08})`;
-    ctx.lineWidth = px(1.2);
-    ctx.beginPath();
-    ctx.arc(m.x, m.y, e.len / 2 + 14 + pulse * 8, 0, Math.PI * 2);
-    ctx.stroke();
   }
 
   const agents = sim.agents;
@@ -270,7 +250,7 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
       const b = agents[tr.to];
       if (!a?.alive || !b?.alive) continue;
       const fade = Math.sin(tr.t * Math.PI);
-      ctx.strokeStyle = `rgba(${SIM_COLORS.link}, ${0.34 * fade})`;
+      ctx.strokeStyle = `rgba(${SIM_COLORS.link}, ${0.5 * fade})`;
       ctx.beginPath();
       ctx.moveTo(ax(a, alpha), ay(a, alpha));
       ctx.lineTo(ax(b, alpha), ay(b, alpha));
@@ -412,6 +392,38 @@ export function render(ctx: CanvasRenderingContext2D, sim: Simulation, view: Vie
     ctx.strokeStyle = `rgba(${SIM_COLORS.agentCore}, ${0.4 * flashW})`;
     ctx.stroke();
   }
+
+  // the state-4 closure: unmistakably shut
+  if (sim.closure >= 0) {
+    const e = city.edges[sim.closure];
+    const na = city.nodes[e.a];
+    const nb = city.nodes[e.b];
+    const pulse = 0.5 + 0.5 * Math.sin(time * 3.4);
+    ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.5 + 0.3 * pulse})`;
+    ctx.lineWidth = px(4);
+    ctx.setLineDash([px(7), px(6)]);
+    ctx.beginPath();
+    ctx.moveTo(na.x, na.y);
+    ctx.lineTo(nb.x, nb.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // barrier ticks across each end
+    for (const n of [na, nb]) {
+      ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, 0.9)`;
+      ctx.lineWidth = px(2.5);
+      ctx.beginPath();
+      ctx.moveTo(n.x - e.uy * 8, n.y + e.ux * 8);
+      ctx.lineTo(n.x + e.uy * 8, n.y - e.ux * 8);
+      ctx.stroke();
+    }
+    const m = edgeMid(city, e);
+    ctx.strokeStyle = `rgba(${SIM_COLORS.hazardBright}, ${0.2 * pulse + 0.08})`;
+    ctx.lineWidth = px(1.2);
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, e.len / 2 + 14 + pulse * 8, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
 
   // pointer disturbance
   if (sim.pointer.active) {
